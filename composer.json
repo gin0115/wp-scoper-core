@@ -1,0 +1,52 @@
+{
+    "name": "gin0115/wp-scoper-core",
+    "type": "library",
+    "description": "The core application for WP Scoper a package for building scoped vendor directory for WordPress plugins and themes.",
+    "keywords": [],
+    "homepage": "https://github.com/gin0115/wp-scoper-core",
+    "license": "GPL-3.0-or-later",
+    "authors": [{
+        "name": "Glynn Quelch",
+        "email": "glynn.quelch@pinkcrab.co.uk",
+        "homepage": "https://github.com/gin0115",
+        "role": "Developer"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Gin0115\\WpScoper\\": "src"
+        },
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gin0115\\WpScoper\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1",
+        "symfony/var-dumper": "4.*"
+    },
+    "require": {
+        "php": ">=7.4.0",
+        "mnapoli/silly": "^1.7",
+        "mnapoli/silly-php-di": "^1.2",
+        "nette/neon": "^3.2",
+        "pinkcrab/function-constructors": "^0.2",
+        "symfony/filesystem": "^5.2"
+    },
+    "scripts": {
+        "test": "phpunit --coverage-clover coverage.xml",
+        "coverage": "phpunit --coverage-html coverage-report",
+        "analyse": "vendor/bin/phpstan analyse src -l8",
+        "sniff": "vendor/bin/phpcs src/ -v",
+        "all": "composer test && composer analyse && composer sniff",
+        "build-phar": "composer install --no-dev --prefer-source && ./box.phar build && mv bin/pinkcrab.phar bin/pinkcrab && composer install"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
