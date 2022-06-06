@@ -1,0 +1,15 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+parameters:
+    level: 8
+    inferPrivatePropertyTypeFromConstructor: true
+    paths:
+        - %currentWorkingDirectory%/src/
+    excludePaths:
+        - %currentWorkingDirectory%/tests/*
+    bootstrapFiles:
+    parallel:
+        processTimeout: 300.0
+        jobSize: 10
+        maximumNumberOfProcesses: 4
+        minimumNumberOfJobsPerProcess: 4

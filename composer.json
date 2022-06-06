@@ -1,0 +1,63 @@
+{
+    "name": "gin0115/wp-scoper-core",
+    "type": "library",
+    "description": "The core application for WP Scoper a package for building scoped vendor directory for WordPress plugins and themes.",
+    "keywords": [],
+    "homepage": "https://github.com/gin0115/wp-scoper-core",
+    "license": "GPL-3.0-or-later",
+    "authors": [{
+        "name": "Glynn Quelch",
+        "email": "glynn.quelch@pinkcrab.co.uk",
+        "homepage": "https://github.com/gin0115",
+        "role": "Developer"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Gin0115\\WpScoper\\": "src"
+        },
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gin0115\\WpScoper\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1",
+        "symfony/var-dumper": "4.*",
+        "friendsofphp/php-cs-fixer": "^3",
+        "yoast/phpunit-polyfills": "^1.0.0",
+        "phpunit/phpunit": "^7.0 || ^8.0"
+    },
+    "require": {
+        "php": ">=7.4.0",
+        "mnapoli/silly": "^1.7",
+        "mnapoli/silly-php-di": "^1.2",
+        "nette/neon": "^3.2",
+        "pinkcrab/function-constructors": "^0.2",
+        "czproject/git-php": "^3.18",
+        "symfony/polyfill-php80": "^1.22",
+        "jetbrains/phpstorm-stubs": "dev-master",
+        "humbug/php-scoper": "^0.14",
+        "bamarni/composer-bin-plugin": "^1.4",
+        "php-stubs/woocommerce-stubs": "^6",
+        "php-stubs/acf-pro-stubs": "^5",
+        "szepeviktor/phpstan-wordpress": "^1.0"
+    },
+    "scripts": {
+        "test": "phpunit --coverage-clover coverage.xml",
+        "coverage": "phpunit --coverage-html coverage-report",
+        "analyse": "vendor/bin/phpstan analyse src -l8",
+        "sniff": "php-cs-fixer fix --diff --dry-run --rules=@PSR12",
+        "all": "composer test && composer analyse && composer sniff",
+        "build-phar": "composer install --no-dev --prefer-source && ./box.phar build && mv bin/pinkcrab.phar bin/pinkcrab && composer install"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "bamarni/composer-bin-plugin": true
+        }
+    }
+}
