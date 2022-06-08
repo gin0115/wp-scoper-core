@@ -98,13 +98,4 @@ return Command::SUCCESS;
 		return $value;
 	}
 
-
-	// invoke command
-	public function __invoke(
-		OutputInterface $output, //phpcs:disable PEAR.Functions.ValidDefaultValue.NotAtEnd -- no control over arg order
-		Input $input
-	) {
-
-		$output->writeln( $this->title() );
-	}
 }
