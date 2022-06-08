@@ -74,19 +74,18 @@ LOGO;
         );
 
 
-		// $vaue = $style->choice('Select the queue to analyze', ['queue1', 'queue2', 'queue3'], 'queue1');
-		$vaue = $this->awaitMenuInput($style);
+		$value = $this->awaitMenuInput($style);
 
 		// If quit
-		if ( $vaue === 'q' || $vaue === 'quit' ) {
+		if ( $value === 'q' || $value === 'quit' ) {
 			return 0;
 		}
-		dump($vaue);
+		dump($value);
 return Command::SUCCESS;
 	}
 
 	private function awaitMenuInput( SymfonyStyle $style ): string {
-		$value = $style->ask( 'Please enter a key or a command..','quit' );
+		$value = $style->ask( 'Please enter a key or a command and press enter.','quit' );
 		
 		if(
 			!in_array($value, \array_column($this->menuItems, 'key'))
