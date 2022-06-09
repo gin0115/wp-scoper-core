@@ -1,0 +1,15 @@
+project_namespace: Gin0115\Foo
+project_path: /home/glynn/projects/devilbox_public/wp-scoper/wp-scoper-core
+vendor_dir: d
+namespace_prefix: MockPrefix
+autoload_prefix: fff_fff
+white_list:
+    - PHPUnit\Framework
+    - Composer\Autoload\ClassLoader
+    - PinkCrab\Headless_Blog
+patchers:
+    - { package: php-stubs/wordpress-stubs, stubsPath: '{vendorDIR}/php-stubs/wordpress-stubs/wordpress-stubs.php', destination: wp_patcher }
+    - { package: kimhf/woocommerce-stubs, stubsPath: '{vendorDIR}/kimhf/woocommerce-stubs/woocommerce-stubs.php', destination: wc_patcher }
+    - { package: kimhf/advanced-custom-fields-pro-stubs, stubsPath: '{vendorDIR}/kimhf/advanced-custom-fields-pro-stubs/advanced-custom-fields-pro-stubs.php', destination: acf_patcher }
+custom_patchers:
+    - function
