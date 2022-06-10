@@ -99,10 +99,11 @@ class ProjectStatus extends Command
 
         $style->block('Finders', null, 'fg=white;bg=bright-magenta', '    ', true);
         foreach ($r->getSourceFinders() as $finder) {
-            foreach ($finder as $key => $value) {
-                $value = is_array($value) ? implode(', ', $value) : $value;
-                $value = is_bool($value) ? ($value ? 'TRUE' : 'FALSE') : $value;
-                $style->writeln('    <fg=white;bg=bright-magenta>' . $key . ':</> <fg=black;bg=white>' . $value . '</>');
+            foreach ($finder as $method => $args) {
+                // Cast the args as a string.
+                $args = implode(', ', array_map('json_encode', $args));
+                $args = str_replace('\\\\', '\\', $args);
+                $style->writeln('    <fg=white;bg=bright-magenta>  ' . $method . '( </><fg=black;bg=white>' . $args . '</><fg=white;bg=bright-magenta> )  </>');
             }
         }
         // $style->writeln('    <fg=white;bg=bright-magenta>Config Path:</> <fg=black;bg=white>' . $r->getConfigPath() . '</>');
