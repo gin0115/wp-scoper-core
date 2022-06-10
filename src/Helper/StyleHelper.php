@@ -14,7 +14,7 @@ class StyleHelper
     public static function getLogo(): string
     {
         return <<<LOGO
-
+<fg=bright-magenta>
 	
                  _    _______   _____                           
                 | |  | | ___ \ /  ___|                          
@@ -27,6 +27,7 @@ class StyleHelper
 
 	 
 					Whatever                                                                                                                                             
+</>
 LOGO;
     }
 }

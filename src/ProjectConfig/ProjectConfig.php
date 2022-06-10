@@ -7,13 +7,19 @@ namespace Gin0115\WpScoper\ProjectConfig;
 class ProjectConfig
 {
     /** @var string */
-    private string $projectNamespace;
-
-    /** @var string */
     private string $projectPath;
 
     /** @var string */
-    private string $vendorDir;
+    private string $vendorPath;
+
+    /** @var string */
+    private string $buildPath;
+
+    /** @array{path:string, files:true, ignoreVcs:bool, notName: string, exclude: string[]}[] */
+    private array $sourceFinders;
+
+    /** @var string[] */
+    private array $sourceFiles;
 
     /** @var string */
     private string $namespacePrefix;
@@ -22,56 +28,55 @@ class ProjectConfig
     private string $autoloadPrefix;
 
     /** @var string[] */
-    private array $whiteList;
-
-    /** @var array{package:string, path:string, destination:string}[] */
-    private array $patchers;
+    private array $ignoredNamespaces;
 
     /** @var string[] */
-    private array $customPatchers;
+    private array $patcherStubs;
+
+    /** @var string[] */
+    private array $patcherSymbols;
 
     /**
-     * Create an instance of ProjectConfig.
      *
-     * @param string $projectNamespace
      * @param string $projectPath
-     * @param string $vendorDir
+     * @param string $vendorPath
+     * @param string $vendorPath
+     * @param string[] $sourceFinders
+     * @param string[] $sourceFiles
      * @param string $namespacePrefix
      * @param string $autoloadPrefix
-     * @param string[] $whiteList
-     * @param array{package:string, path:string, destination:string}[] $patchers
-     * @param string[] $customPatchers
+     * @param string[] $ignoredNamespaces
+     * @param string[] $patcherStubs
+     * @param string[] $patcherSymbols
      */
     public function __construct(
-        string $projectNamespace,
         string $projectPath,
-        string $vendorDir,
+        string $vendorPath,
+        string $buildPath,
+        array $sourceFinders,
+        array $sourceFiles,
         string $namespacePrefix,
         string $autoloadPrefix,
-        array $whiteList,
-        array $patchers,
-        array $customPatchers
+        array $ignoredNamespaces,
+        array $patcherStubs,
+        array $patcherSymbols
     ) {
-        $this->projectNamespace = $projectNamespace;
         $this->projectPath = $projectPath;
-        $this->vendorDir = $vendorDir;
+        $this->vendorPath = $vendorPath;
+        $this->buildPath = $buildPath;
+
+        $this->sourceFinders = $sourceFinders;
+        $this->sourceFiles = $sourceFiles;
+
 
         $this->namespacePrefix = $namespacePrefix;
         $this->autoloadPrefix = $autoloadPrefix;
 
-        $this->whiteList = $whiteList;
-        $this->patchers = $patchers;
-        $this->customPatchers = $customPatchers;
+        $this->ignoredNamespaces = $ignoredNamespaces;
+        $this->patcherStubs = $patcherStubs;
+        $this->patcherSymbols = $patcherSymbols;
     }
 
-    /**
-     * Get the value of projectNamespace
-     * @return string
-     */
-    public function getProjectNamespace(): string
-    {
-        return $this->projectNamespace;
-    }
 
     /**
      * Get the value of projectPath
@@ -83,12 +88,22 @@ class ProjectConfig
     }
 
     /**
-     * Get the value of vendorDir
+     * Get the value of vendorPath
      * @return string
      */
-    public function getVendorDir(): string
+    public function getVendorPath(): string
     {
-        return $this->vendorDir;
+        return $this->vendorPath;
+    }
+
+
+    /**
+     * Get the value of buildPath
+     * @return string
+     */
+    public function getBuildPath(): string
+    {
+        return $this->buildPath;
     }
 
     /**
@@ -113,19 +128,19 @@ class ProjectConfig
      * Get all namespaces which should be excluded from prefixing.
      * @return string[]
      */
-    public function getWhiteList(): array
+    public function getIgnoreNamespaces(): array
     {
-        return $this->whiteList;
+        return $this->ignoredNamespaces;
     }
 
     /**
      * Get all patcher/stub definitions to be excluded from prefixing.
      *
-     * @return array{package:string, path:string, destination:string}[]
+     * @return string[]
      */
-    public function getPatchers(): array
+    public function getPatcherStubs(): array
     {
-        return $this->patchers;
+        return $this->patcherStubs;
     }
 
     /**
@@ -133,226 +148,29 @@ class ProjectConfig
      *
      * @return string[]
      */
-    public function getCustomPatchers()
+    public function getPatcherSymbols(): array
     {
-        return $this->customPatchers;
-    }
-
-    /**
-     * Create a new config with a custom namespace.
-     *
-     * @param string $namespace
-     * @return self
-     */
-    public function withNamespace(string $namespace): self
-    {
-        return new self(
-            $namespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with a custom project path.
-     *
-     * @param string $projectPath
-     * @return self
-     */
-    public function withProjectPath(string $projectPath): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with a custom vendor dir.
-     *
-     * @param string $vendorDir
-     * @return self
-     */
-    public function withVendorDir(string $vendorDir): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with a custom namespace prefix.
-     *
-     * @param string $namespacePrefix
-     * @return self
-     */
-    public function withNamespacePrefix(string $namespacePrefix): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with a custom autoload prefix.
-     *
-     * @param string $autoloadPrefix
-     * @return self
-     */
-    public function withAutoloadPrefix(string $autoloadPrefix): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with a custom whitelist.
-     *
-     * @param array $whiteList
-     * @return self
-     */
-    public function withWhiteList(string $whiteList): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            array_merge([$whiteList], $this->whiteList),
-            $this->patchers,
-            $this->customPatchers
-        );
+        return $this->patcherSymbols;
     }
 
 
     /**
-     * Create a new config with a custom patcher.
+     * Get the value of sourceFinders
      *
-     * @param array{package:string, path:string, destination:string} $patcher
-     * @return self
+     * @return string[]
      */
-    public function withPatcher(array $patcher): self
+    public function getSourceFinders(): array
     {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            array_merge($patcher, $this->patchers),
-            $this->customPatchers
-        );
+        return $this->sourceFinders;
     }
 
-    /**
-     * Create a new config with a custom custom patcher.
-     *
-     * @param string $customPatcher
-     * @return self
-     */
-    public function withCustomPatcher(string $customPatcher): self
+     /**
+      * Get the value of sourceFiles
+      *
+      * @return string[]
+      */
+    public function getSourceFiles(): array
     {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            array_merge([$customPatcher], $this->customPatchers)
-        );
-    }
-
-    /**
-     * Create a new config with no whitelist.
-     *
-     * @return self
-     */
-    public function withoutWhiteList(): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            [],
-            $this->patchers,
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with no patchers.
-     *
-     * @return self
-     */
-    public function withoutPatchers(): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            [],
-            $this->customPatchers
-        );
-    }
-
-    /**
-     * Create a new config with no custom patchers.
-     *
-     * @return self
-     */
-    public function withoutCustomPatchers(): self
-    {
-        return new self(
-            $this->projectNamespace,
-            $this->projectPath,
-            $this->vendorDir,
-            $this->namespacePrefix,
-            $this->autoloadPrefix,
-            $this->whiteList,
-            $this->patchers,
-            []
-        );
+         return $this->sourceFiles;
     }
 }

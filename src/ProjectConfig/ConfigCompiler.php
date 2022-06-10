@@ -20,9 +20,17 @@ class ConfigCompiler
      */
     private $projectPath;
 
-    public function __construct(string $projectPath)
+    /**
+     * Global path where this is installed
+     *
+     * @var string
+     */
+    private $globalPath;
+
+    public function __construct(string $projectPath, string $globalPath)
     {
         $this->projectPath = $projectPath;
+        $this->globalPath = $globalPath;
     }
 
     /**
@@ -67,19 +75,6 @@ class ConfigCompiler
     }
 
     /**
-     * Update config file with the given config.
-     *
-     * @param ProjectConfig $config
-     * @return void
-     */
-    public function updateConfig(ProjectConfig $config): void
-    {
-        $yaml = $this->createYamlFromConfig($config);
-        file_put_contents($this->getConfigFilePath(), $yaml);
-    }
-
-
-        /**
      * Create an instance of ProjectConfig from an existing config file.
      *
      * @param string $yamlPath
@@ -90,36 +85,33 @@ class ConfigCompiler
         $config = Yaml::parseFile($yamlPath);
 
         return new ProjectConfig(
-            $config['project_namespace'] ?? '',
             $config['project_path'] ?? '',
             $config['vendor_dir'] ?? '',
+            $config['build_dir'] ?? '',
+            $config['source_paths'] ?? [],
+            $config['source_files'] ?? [],
             $config['namespace_prefix'] ?? '',
             $config['autoload_prefix'] ?? '',
-            $config['white_list'] ?? [],
-            $config['patchers'] ?? [],
-            $config['custom_patchers'] ?? []
+            $config['ignored_namespaces'] ?? [],
+            $this->mapPathPlaceholders($config['patcher_stubs'] ?? []),
+            $config['patcher_symbols'] ?? []
         );
     }
 
     /**
-     * Create YAML config from existing ProjectConfig.
+     * Maps an array of paths, replaces placeholders with the project or global path.
      *
-     * @param ProjectConfig $config
-     * @return string
+     * @param array $paths
+     * @return array
      */
-    private function createYamlFromConfig(ProjectConfig $config): string
+    private function mapPathPlaceholders(array $paths): array
     {
-        $yaml = [
-            'project_namespace' => $config->getProjectNamespace(),
-            'project_path' => $config->getProjectPath(),
-            'vendor_dir' => $config->getVendorDir(),
-            'namespace_prefix' => $config->getNamespacePrefix(),
-            'autoload_prefix' => $config->getAutoloadPrefix(),
-            'white_list' => $config->getWhiteList(),
-            'patchers' => $config->getPatchers(),
-            'custom_patchers' => $config->getCustomPatchers(),
-        ];
-
-        return Yaml::dump($yaml);
+        return array_map(function ($path) {
+            return str_replace(
+                ['{project_path}', '{global_path}'],
+                [$this->projectPath, $this->globalPath],
+                $path
+            );
+        }, $paths);
     }
 }

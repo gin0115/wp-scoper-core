@@ -38,7 +38,6 @@ class StatusCommand extends Command
      */
     private Application $app;
 
-    private string $currentPath;
 
     /**
      * Creates an instance of the HomeCommand
@@ -47,20 +46,8 @@ class StatusCommand extends Command
      */
     public function __construct(Application $app)
     {
-        // $this->app = $app;
-        $this->currentPath = getcwd();
+        $this->app = $app;
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this->addArgument(
-                'project',
-                InputArgument::OPTIONAL,
-                'The base path of the project',
-                getcwd()
-            )
-        ;
     }
 
     /**
@@ -72,42 +59,12 @@ class StatusCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+
+
         $style = new SymfonyStyle($input, $output);
 
         $style->writeln(StyleHelper::getLogo());
-        $style->writeln('<info>Project Config</info>');
-
-        $project = $input->getArgument('project') ?? $this->currentPath;
-
-        // If we have no project, throw an error
-        if (!$project) {
-            $style->error('No project path provided.');
-            // return 1;
-        }
-
-        $config = new ConfigCompiler($project);
-
-        // If no config, throw an error
-        if (!$config->hasConfig()) {
-            // @todo Create a new project here on optional request.
-            $style->error('No config found.');
-
-
-
-            // return 1;
-        }
-
-        $r = $config->getConfig();
-
-        // $r = new ProjectConfig(
-        //     'd',$this->currentPath,
-        //     'd', 'DD\\DD', 'fff_fff', [], [], []
-        // );
-
-        $config->updateConfig($r);
-
-
-        dump($config, $r);
+        $style->block('Project Config', null, 'info');
 
 
         return 0;
