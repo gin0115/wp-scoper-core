@@ -6,7 +6,8 @@ use Silly\Edition\PhpDi\Application;
 use Gin0115\WpScoper\Command\HomeCommand;
 use Gin0115\WpScoper\Application\WpScoper;
 use Gin0115\WpScoper\Command\StatusCommand;
-use Gin0115\WpScoper\Command\Status\ProjectStatus;
+use Gin0115\WpScoper\Command\Status\StatusHomeCommand;
+use Gin0115\WpScoper\Command\Status\ProjectStatusCommand;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -20,12 +21,12 @@ $app->command('home', array( HomeCommand::class, 'execute' ))
     ->descriptions(HomeCommand::getDefaultDescription())
     ->setHelp('You can use this command to see a list of all available commands, with a basic menu system');
 
-$app->command('status', array( StatusCommand::class, 'execute' ))
-    ->descriptions(StatusCommand::getDefaultDescription())
+$app->command('status', array( StatusHomeCommand::class, 'execute' ))
+    ->descriptions(StatusHomeCommand::getDefaultDescription())
     ->setHelp('Get the status of WP Scoper for projects and globally');
 
-$app->command('status:project [project]', array( ProjectStatus::class, 'execute' ))
-    ->descriptions(StatusCommand::getDefaultDescription())
+$app->command('status:project [project]', array( ProjectStatusCommand::class, 'execute' ))
+    ->descriptions(StatusHomeCommand::getDefaultDescription())
     ->setHelp('Get the status of WP Scoper for projects and globally');
 
 $app->setDefaultCommand('home');

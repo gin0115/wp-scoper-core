@@ -2,27 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Gin0115\WpScoper\Command;
+namespace Gin0115\WpScoper\Command\Status;
 
-use Silly\Command\Command;
 use Silly\Edition\PhpDi\Application;
 use Gin0115\WpScoper\Helper\StyleHelper;
 use Gin0115\WpScoper\Command\AbstractMenuCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class HomeCommand extends AbstractMenuCommand
+class StatusHomeCommand extends AbstractMenuCommand
 {
-    /** @inheritDoc */
-    protected static $defaultDescription = 'Home command for WP Scoper.';
 
+/** @inheritDoc */
+    protected static $defaultDescription = 'Checks the configuration of WP Scoper for the current project.';
+    
     /**
      * Access to the application
      *
      * @var \Silly\Edition\PhpDi\Application
      */
-    private Application $app;
+    protected Application $app;
+
 
     /**
      * Creates an instance of the HomeCommand
@@ -35,6 +34,11 @@ class HomeCommand extends AbstractMenuCommand
         parent::__construct();
     }
 
+    public function getApp(): Application
+    {
+        return $this->app;
+    }
+
     /**
      * The menu items to be displayed.
      *
@@ -43,16 +47,12 @@ class HomeCommand extends AbstractMenuCommand
     public function getTableItems(): array
     {
         return [
-         ['Alias' => 's', 'Command' => 'status', 'Description' => 'Show status of WP Scoper.', 'action' => 'status'],
-        ['Alias' => 'n', 'Command' => 'new', 'Description' => 'Sets up a new WP Scoper project', 'action' => 'test'],
-        ['Alias' => 'h', 'Command' => 'help', 'Description' => 'Show Help', 'action' => 'test'],
+        ['Alias' => 'p', 'Command' => 'status:project', 'Description' => 'Show the status and config of a projects WP Scoper setup', 'action' => 'status:project'],
+        ['Alias' => 'g', 'Command' => 'status:global', 'Description' => 'Show status about the WP Scoper installation', 'action' => 'status:global'],
+        ['Alias' => 'g', 'Command' => 'status:commands', 'Description' => 'Shows a list of all commands and arguments', 'action' => 'status:global'],
+        ['Alias' => 'b', 'Command' => 'home', 'Description' => 'Back to main menu', 'action' => 'home'],
         ['Alias' => 'q', 'Command' => 'quit', 'Description' => 'Quit WP Scoper.', 'action' => 'test'],
         ];
-    }
-
-    public function getApp(): Application
-    {
-        return $this->app;
     }
 
     /**
@@ -83,6 +83,6 @@ class HomeCommand extends AbstractMenuCommand
      */
     public function beforeMenu(SymfonyStyle $style): void
     {
-        StyleHelper::commandHeader($style, ['Home'], true);
+        StyleHelper::commandHeader($style, ['Home','Status'], true);
     }
 }

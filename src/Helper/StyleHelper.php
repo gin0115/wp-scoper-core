@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gin0115\WpScoper\Helper;
 
+use Symfony\Component\Console\Style\SymfonyStyle;
+
 class StyleHelper
 {
     /**
@@ -25,9 +27,24 @@ class StyleHelper
                                                | |              
                                                |_|              
 
-	 
-					Whatever                                                                                                                                             
 </>
 LOGO;
+    }
+
+    /**
+     * Renders the header for a commands output
+     * pass the subtitle as as if it were hierarchal.
+     *
+     * @param \Symfony\Component\Console\Style\SymfonyStyle $style
+     * @param array $subTitle
+     * @return void
+     */
+    public static function commandHeader(SymfonyStyle $style, array $subTitle = [], bool $clear = false): void
+    {
+        if ($clear) {
+            $style->write(sprintf("\033\143"));
+        }
+        $style->writeln(StyleHelper::getLogo());
+        $style->block(join(' :: ', $subTitle), null, 'info', '    ');
     }
 }
