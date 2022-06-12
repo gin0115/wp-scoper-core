@@ -43,9 +43,9 @@ class HomeCommand extends AbstractMenuCommand
     public function getTableItems(): array
     {
         return [
-         ['Alias' => 's', 'Command' => 'status', 'Description' => 'Show status of WP Scoper.', 'action' => 'status'],
+        ['Alias' => 's', 'Command' => 'status', 'Description' => 'Show status of WP Scoper.', 'action' => 'status'],
+        ['Alias' => 'p', 'Command' => 'patchers', 'Description' => 'Global patchers, list, add and remove', 'action' => 'patchers'],
         ['Alias' => 'n', 'Command' => 'new', 'Description' => 'Sets up a new WP Scoper project', 'action' => 'test'],
-        ['Alias' => 'h', 'Command' => 'help', 'Description' => 'Show Help', 'action' => 'test'],
         ['Alias' => 'q', 'Command' => 'quit', 'Description' => 'Quit WP Scoper.', 'action' => 'test'],
         ];
     }

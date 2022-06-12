@@ -17,7 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ProjectStatusCommand extends Command
 {
-
     /** @inheritDoc */
     protected static $defaultDescription = 'Lists the configuration of WP Scoper for the current project.';
 
@@ -132,26 +131,50 @@ class ProjectStatusCommand extends Command
     private function renderProjectConfig(SymfonyStyle $style, ProjectConfig $config): void
     {
         $style->block('Config', null, 'fg=white;bg=gray', '    ', true);
-        $style->writeln('    <fg=cyan;bg=gray> Namespace Prefix:</> <fg=blue;bg=gray>' . $config->getNamespacePrefix() . '</>');
-        $style->writeln('    <fg=cyan;bg=gray> Autoloader Prefix:</> <fg=blue;bg=gray>' . $config->getAutoloadPrefix() . '</>');
-        $style->writeln('    <fg=cyan;bg=gray> Project Path:</> <fg=blue;bg=gray>' . $config->getProjectPath() . '</>');
-        $style->writeln('    <fg=cyan;bg=gray> Project Vendor Path:</> <fg=blue;bg=gray>' . $config->getVendorPath() . '</>');
-        $style->writeln('    <fg=cyan;bg=gray> Project Build Path:</> <fg=blue;bg=gray>' . $config->getBuildPath() . '</>');
+
+        $style->horizontalTable(
+            [
+                'Namespace Prefix',
+                'Autoloader Prefix',
+                'Project Path',
+                'Project Vendor Path',
+                'Project Build Path',
+            ],
+            [[
+                $config->getNamespacePrefix(),
+                $config->getAutoloadPrefix(),
+                $config->getProjectPath(),
+                $config->getVendorPath(),
+                $config->getBuildPath(),
+            ]]
+        );
 
         $style->block('Finders', null, 'fg=white;bg=gray', '    ', true);
         foreach ($config->getSourceFinders() as $finder) {
-            $style->writeln('    <fg=cyan;bg=gray>Finder::create()</>');
-			foreach ($finder as $method => $args) {
+            $style->writeln('    <fg=cyan;bg=black>Finder::create()</>');
+            foreach ($finder as $method => $args) {
                 // Cast the args as a string.
                 $args = implode(', ', array_map('json_encode', $args));
                 $args = str_replace('\\\\', '\\', $args);
-                $style->writeln('    <fg=cyan;bg=gray>   ->' . $method . '( </><fg=blue;bg=gray>' . $args . '</><fg=cyan;bg=gray> )  </>');
+                $style->writeln('    <fg=cyan;bg=black>   ->' . $method . '( </><fg=blue;bg=black>' . $args . '</><fg=cyan;bg=black> )  </>');
             }
         }
 
         $style->block('Stubs & Patchers', null, 'fg=white;bg=gray', '    ', true);
-dump($config);
-		
 
+        $style->table(
+            ['Stubs'],
+            array_map(fn($e) => [$e], $config->getPatcherStubs())
+        );
+
+        $style->table(
+            ['Ignored Namespaces'],
+            array_map(fn($e) => [$e], $config->getIgnoreNamespaces())
+        );
+
+        $style->table(
+            ['Ignored Symbols'],
+            array_map(fn($e) => [$e], $config->getPatcherSymbols())
+        );
     }
 }

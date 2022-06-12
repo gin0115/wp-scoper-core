@@ -30,4 +30,5 @@ $app->command('status:project [project]', array( ProjectStatusCommand::class, 'e
     ->setHelp('Get the status of WP Scoper for projects and globally');
 
 $app->setDefaultCommand('home');
+
 $app->run();
