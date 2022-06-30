@@ -1,0 +1,23 @@
+project_path: /home/glynn/projects/devilbox_public/wp-scoper/wp-scoper-core
+vendor_dir: /home/glynn/projects/devilbox_public/wp-scoper/wp-scoper-core/vendor
+build_dir: /home/glynn/projects/devilbox_public/wp-scoper/wp-scoper-core/build
+source_paths:
+    - { 
+        in: [vendor], 
+        files: [], 
+        ignoreVcs: [true], 
+        notName: ['/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/'], 
+        exclude: [[doc, vendor-bin] ]
+    }
+namespace_prefix: MockPrefix_
+autoload_prefix: fff_fff
+ignored_namespaces:
+    - 'PHPUnit\Framework\*'
+    - Composer\Autoload\ClassLoader
+    - 'PinkCrab\Headless_Blog\*'
+patcher_stubs:
+    - '{vendorDIR}/php-stubs/wordpress-stubs/wordpress-stubs.php'
+    - '{vendorDIR}/kimhf/woocommerce-stubs/woocommerce-stubs.php'
+    - '{vendorDIR}/kimhf/advanced-custom-fields-pro-stubs/advanced-custom-fields-pro-stubs.php'
+patcher_symbols:
+    - get_post_meta

@@ -31,18 +31,20 @@
     },
     "require": {
         "php": ">=7.4.0",
-        "mnapoli/silly": "^1.7",
+        "mnapoli/silly": "^1.8",
         "mnapoli/silly-php-di": "^1.2",
         "nette/neon": "^3.2",
         "pinkcrab/function-constructors": "^0.2",
         "czproject/git-php": "^3.18",
         "symfony/polyfill-php80": "^1.22",
-        "jetbrains/phpstorm-stubs": "dev-master",
-        "humbug/php-scoper": "^0.14",
+        "jetbrains/phpstorm-stubs": "*",
+        "humbug/php-scoper": "^0.17",
         "bamarni/composer-bin-plugin": "^1.4",
         "php-stubs/woocommerce-stubs": "^6",
         "php-stubs/acf-pro-stubs": "^5",
-        "szepeviktor/phpstan-wordpress": "^1.0"
+        "szepeviktor/phpstan-wordpress": "^1.0",
+        "symfony/yaml": "^6.0",
+        "league/flysystem": "^3.0"
     },
     "scripts": {
         "test": "phpunit --coverage-clover coverage.xml",
