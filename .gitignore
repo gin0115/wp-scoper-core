@@ -1,3 +1,4 @@
 vendor
 .vscode
 patchers/patcher-records.json
+wp-scoper-core.code-workspace
