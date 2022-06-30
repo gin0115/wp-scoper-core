@@ -1,7 +1,15 @@
 {
-    "settings": {
-        "files.associations": {
-            "*.yaml": "home-assistant"
-        }
-    }
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"phpcs.standard": "PSR12",
+		"phpcbf.standard": "PSR12",
+		"phpstan.path": "vendor/phpstan/phpstan/phpstan",
+		"files.associations": {
+			"*.yaml": "home-assistant"
+		}
+	}
 }
