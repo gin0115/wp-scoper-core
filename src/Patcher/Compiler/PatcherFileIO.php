@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Gin0115\WpScoper\Patcher;
+namespace Gin0115\WpScoper\Patcher\Compiler;
 
 use League\Flysystem\Filesystem;
 
 class PatcherFileIO
 {
     private string $patchPath;
+    private string $basePath;
 
     private Filesystem $filesystem;
 
-    public function __construct(string $patchPath, Filesystem $filesystem)
+    public function __construct(string $patchPath, Filesystem $filesystem, string $basePath)
     {
         $this->patchPath = $patchPath;
         $this->filesystem = $filesystem;
+        $this->basePath = $basePath;
     }
 
     /**
@@ -81,8 +83,6 @@ class PatcherFileIO
      */
     public function getPath(): string
     {
-        return $this->patchPath;
+        return $this->basePath . \DIRECTORY_SEPARATOR . $this->patchPath;
     }
-
-
 }

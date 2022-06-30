@@ -6,6 +6,7 @@ namespace Gin0115\WpScoper\Command\Status;
 
 use Silly\Edition\PhpDi\Application;
 use Gin0115\WpScoper\Helper\StyleHelper;
+use Gin0115\WpScoper\Application\WpScoper;
 use Gin0115\WpScoper\Command\AbstractMenuCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -18,7 +19,7 @@ class StatusHomeCommand extends AbstractMenuCommand
     /**
      * Access to the application
      *
-     * @var \Silly\Edition\PhpDi\Application
+     * @var WpScoper
      */
     protected Application $app;
 
@@ -30,7 +31,9 @@ class StatusHomeCommand extends AbstractMenuCommand
      */
     public function __construct(Application $app)
     {
+        /** @var WpScoper $app */
         $this->app = $app;
+        $this->app->setFromMenu(true);
         parent::__construct();
     }
 
@@ -50,7 +53,7 @@ class StatusHomeCommand extends AbstractMenuCommand
         ['Alias' => 'p', 'Command' => 'status:project', 'Description' => 'Show the status and config of a projects WP Scoper setup', 'action' => 'status:project'],
         ['Alias' => 'g', 'Command' => 'status:global', 'Description' => 'Show status about the WP Scoper installation', 'action' => 'status:global'],
         ['Alias' => 'g', 'Command' => 'status:commands', 'Description' => 'Shows a list of all commands and arguments', 'action' => 'status:global'],
-        ['Alias' => 'b', 'Command' => 'home', 'Description' => 'Back to main menu', 'action' => 'home'],
+        ['Alias' => 'h', 'Command' => 'home', 'Description' => 'Back to main menu', 'action' => 'home'],
         ['Alias' => 'q', 'Command' => 'quit', 'Description' => 'Quit WP Scoper.', 'action' => 'test'],
         ];
     }

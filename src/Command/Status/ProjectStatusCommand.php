@@ -7,6 +7,7 @@ namespace Gin0115\WpScoper\Command\Status;
 use Silly\Command\Command;
 use Silly\Input\InputArgument;
 use Silly\Edition\PhpDi\Application;
+use Gin0115\WpScoper\Helper\MenuHelper;
 use Gin0115\WpScoper\Helper\StyleHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Gin0115\WpScoper\ProjectConfig\ProjectConfig;
@@ -23,9 +24,9 @@ class ProjectStatusCommand extends Command
     /**
      * Access to the application
      *
-     * @var \Silly\Edition\PhpDi\Application
+     * @var MenuHelper $menuHelper
      */
-    private Application $app;
+    private MenuHelper $menuHelper;
 
     private string $currentPath;
     private string $appPath;
@@ -35,9 +36,9 @@ class ProjectStatusCommand extends Command
      *
      * @param \Silly\Edition\PhpDi\Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(MenuHelper $menuHelper)
     {
-        $this->app         = $app;
+        $this->menuHelper = $menuHelper;
         $this->currentPath = getcwd();
         $this->appPath     = dirname(__DIR__, 2);
         parent::__construct();
@@ -80,7 +81,7 @@ class ProjectStatusCommand extends Command
         // Check if project path is valid.
         if (! is_dir($projectPath)) {
             $style->error('Project path is not a valid directory.');
-            return $this->returnToHome($style, $output);
+            return $this->menuHelper->returnToMenu('status');
         }
 
         // Attempt to load project config.
@@ -94,32 +95,14 @@ class ProjectStatusCommand extends Command
                     'Please run `wp-scoper new` to create a new config.',
                 )
             );
-            return $this->returnToHome($style, $output);
+            return $this->menuHelper->returnToMenu('status');
         }
 
 
         // Render the config.
         $this->renderProjectConfig($style, $configCompiler->getConfig());
 
-        return $this->returnToHome($style, $output);
-    }
-
-    /**
-     * Renders the return to home prompt.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @return int
-     */
-    private function returnToHome(SymfonyStyle $style, OutputInterface $output): int
-    {
-        // Render the return to home prompt.
-        $returnHome = $style->confirm('Return to status?', false);
-
-        if ($returnHome) {
-            $this->app->run(new ArrayInput(array( 'command' => 'status' )), $output);
-        }
-
-        return 0;
+        return $this->menuHelper->returnToMenu('status');
     }
 
     /**

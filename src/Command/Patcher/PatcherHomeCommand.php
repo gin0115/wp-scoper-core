@@ -2,40 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Gin0115\WpScoper\Command;
+namespace Gin0115\WpScoper\Command\Patcher;
 
-use Silly\Command\Command;
 use Silly\Edition\PhpDi\Application;
 use Gin0115\WpScoper\Helper\StyleHelper;
 use Gin0115\WpScoper\Application\WpScoper;
 use Gin0115\WpScoper\Command\AbstractMenuCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class HomeCommand extends AbstractMenuCommand
+class PatcherHomeCommand extends AbstractMenuCommand
 {
-    /** @inheritDoc */
-    protected static $defaultDescription = 'Home command for WP Scoper.';
+/** @inheritDoc */
+    protected static $defaultDescription = 'Main menu for the patcher options.';
 
     /**
      * Access to the application
      *
-     * @var \Silly\Edition\PhpDi\Application
+     * @var WpScoper
      */
-    private WpScoper $app;
+    protected Application $app;
+
 
     /**
      * Creates an instance of the HomeCommand
      *
-     * @param Application $app
+     * @param \Silly\Edition\PhpDi\Application $app
      */
     public function __construct(Application $app)
     {
         /** @var WpScoper $app */
         $this->app = $app;
         $this->app->setFromMenu(true);
-        parent::__construct();
+    }
+
+    public function getApp(): Application
+    {
+        return $this->app;
     }
 
     /**
@@ -46,16 +48,12 @@ class HomeCommand extends AbstractMenuCommand
     public function getTableItems(): array
     {
         return [
-        ['Alias' => 's', 'Command' => 'status', 'Description' => 'Show status of WP Scoper.', 'action' => 'status'],
-        ['Alias' => 'p', 'Command' => 'patcher', 'Description' => 'Global patchers, list, add and remove', 'action' => 'patcher'],
-        ['Alias' => 'n', 'Command' => 'new', 'Description' => 'Sets up a new WP Scoper project', 'action' => 'test'],
+        ['Alias' => 'a', 'Command' => 'patcher:all', 'Description' => 'Lists all generate patcher definitions', 'action' => 'patcher:all'],
+        ['Alias' => 'n', 'Command' => 'patcher:new', 'Description' => 'Create a new patcher definition from a stub file.', 'action' => 'patcher:new'],
+        ['Alias' => 'd', 'Command' => 'patcher:delete', 'Description' => 'Removes a patcher definition from local', 'action' => 'patcher:delete'],
+        ['Alias' => 'h', 'Command' => 'home', 'Description' => 'Back to main menu', 'action' => 'home'],
         ['Alias' => 'q', 'Command' => 'quit', 'Description' => 'Quit WP Scoper.', 'action' => 'test'],
         ];
-    }
-
-    public function getApp(): Application
-    {
-        return $this->app;
     }
 
     /**
@@ -86,6 +84,6 @@ class HomeCommand extends AbstractMenuCommand
      */
     public function beforeMenu(SymfonyStyle $style): void
     {
-        StyleHelper::commandHeader($style, ['Home'], true);
+        StyleHelper::commandHeader($style, ['Home','Patcher'], true);
     }
 }
