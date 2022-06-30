@@ -76,7 +76,7 @@ class MenuHelper
 
         // Return home if confirmed.
         if ($returnHome) {
-            $this->app->run(new ArrayInput(array( 'command' => 'patcher' )), $this->getOutput());
+            $this->app->run(new ArrayInput(array( 'command' => $command )), $this->getOutput());
         }
 
         return 0;
