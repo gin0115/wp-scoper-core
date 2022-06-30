@@ -109,4 +109,11 @@ class PatcherDeleteCommand extends Command
     {
         return $this->patcherCacheRepository->getAll()[$index ];
     }
+
+    public function deletePatcher(PatcherModel $patcher): void
+    {
+        // Remove from log
+        $this->patcherCacheRepository->remove($patcher->getKey());
+        // Remove from FS
+    }
 }

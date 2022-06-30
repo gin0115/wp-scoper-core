@@ -78,7 +78,6 @@ class PatcherCreator
 
             return null;
         }
-// dump($this->fileIO->getPath());
         return $this->fileIO->getPath() . \DIRECTORY_SEPARATOR . $patcherFileName;
     }
 

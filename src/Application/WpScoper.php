@@ -51,8 +51,7 @@ class WpScoper extends Application
                         ->constructorParameter('path', 'patchers'),
                     PatcherFileIO::class => \DI\autowire()
                         ->constructorParameter('patchPath', 'patchers')
-                        ->constructorParameter('basePath', dirname(__DIR__, 2))
-                        ,
+                        ->constructorParameter('basePath', dirname(__DIR__, 2)),
                 ]
             )
             ->build();

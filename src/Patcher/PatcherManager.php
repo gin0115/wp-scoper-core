@@ -70,7 +70,7 @@ class PatcherManager
                 )
             );
         }
- 
+
         // Compose as a model.
         $patcher = new PatcherModel(
             $this->patcherKeyCreator($name, $version),
@@ -81,8 +81,13 @@ class PatcherManager
 
         // Add model to cache.
         $this->cacheRepository->add($patcher)->save();
-// dump($this->cacheRepository,$patcher);
         return $patcher;
+    }
+
+    public function deletePatcherFile(PatcherModel $patcher): void
+    {
+        $this->cacheRepository->remove($patcher)->save();
+        $this->patcherCreator->deletePatcherFile($patcher);
     }
 
     /**
