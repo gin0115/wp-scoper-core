@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gin0115\WpScoper\ProjectConfig;
 
-class ConfigException extends \Exception
+class ProjectConfigException extends \Exception
 {
     /**
      * Exception for when the config file is not found.

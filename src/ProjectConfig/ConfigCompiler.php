@@ -62,7 +62,7 @@ class ConfigCompiler
     {
         // Check we have a valid config file.
         if (!$this->hasConfig()) {
-            throw ConfigException::missingConfigFile($this->projectPath);
+            throw ProjectConfigException::missingConfigFile($this->projectPath);
         }
 
         try {
@@ -70,7 +70,7 @@ class ConfigCompiler
                 $this->getConfigFilePath()
             );
         } catch (\Throwable $th) {
-            throw ConfigException::invalidConfigFile($th->getMessage());
+            throw ProjectConfigException::invalidConfigFile($th->getMessage());
         }
     }
 
@@ -94,7 +94,8 @@ class ConfigCompiler
             $config['autoload_prefix'] ?? '',
             $config['ignored_namespaces'] ?? [],
             $this->mapPathPlaceholders($config['patcher_stubs'] ?? []),
-            $config['patcher_symbols'] ?? []
+            $config['patcher_symbols'] ?? [],
+            true
         );
     }
 
