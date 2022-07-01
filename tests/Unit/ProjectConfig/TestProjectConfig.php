@@ -45,30 +45,31 @@ final class TestProjectConfig extends TestCase
             'autoload-prefix',
             ['excluded-namespace'],
             ['excluded-stub'],
-            ['excluded-symbol']
+            ['excluded-symbol'],
+            true
         );
     }
 
     /** @testdox It should be possible to get the project path from a config object */
-    public function testGetProjectPath()
+    public function testGetProjectPath(): void
     {
         $this->assertEquals('project-path', $this->configProvider()->getProjectPath());
     }
 
     /** @testdox It should be possible to get the vendor path from a config object */
-    public function testGetVendorPath()
+    public function testGetVendorPath(): void
     {
         $this->assertEquals('vendor-path', $this->configProvider()->getVendorPath());
     }
 
     /** @testdox It should be possible to get the build path from a config object */
-    public function testGetBuildPath()
+    public function testGetBuildPath(): void
     {
         $this->assertEquals('build-path', $this->configProvider()->getBuildPath());
     }
 
     /** @testdox It should be possible to get the source finders from a config object */
-    public function testGetSourceFinders()
+    public function testGetSourceFinders(): void
     {
         $this->assertEquals(
             [
@@ -87,7 +88,7 @@ final class TestProjectConfig extends TestCase
     }
 
     /** @testdox It should be possible to get the source files from a config object */
-    public function testGetSourceFiles()
+    public function testGetSourceFiles(): void
     {
         $this->assertEquals(
             ['source-file-path'],
@@ -96,19 +97,19 @@ final class TestProjectConfig extends TestCase
     }
 
     /** @testdox It should be possible to get the namespace prefix from a config object */
-    public function testGetNamespacePrefix()
+    public function testGetNamespacePrefix(): void
     {
         $this->assertEquals('namespace-prefix', $this->configProvider()->getNamespacePrefix());
     }
 
     /** @testdox It should be possible to get the autoload prefix from a config object */
-    public function testGetAutoloadPrefix()
+    public function testGetAutoloadPrefix(): void
     {
         $this->assertEquals('autoload-prefix', $this->configProvider()->getAutoloadPrefix());
     }
 
     /** @testdox It should be possible to get the excluded namespaces from a config object */
-    public function testGetExcludedNamespaces()
+    public function testGetExcludedNamespaces(): void
     {
         $this->assertEquals(
             ['excluded-namespace'],
@@ -117,7 +118,7 @@ final class TestProjectConfig extends TestCase
     }
 
     /** @testdox It should be possible to get the excluded stubs from a config object */
-    public function testGetExcludedStubs()
+    public function testGetExcludedStubs(): void
     {
         $this->assertEquals(
             ['excluded-stub'],
@@ -126,11 +127,17 @@ final class TestProjectConfig extends TestCase
     }
 
     /** @testdox It should be possible to get the excluded symbols from a config object */
-    public function testGetExcludedSymbols()
+    public function testGetExcludedSymbols(): void
     {
         $this->assertEquals(
             ['excluded-symbol'],
             $this->configProvider()->getExcludedSymbols()
         );
+    }
+
+    /** @testdox It should be possible to createa local cache for project */
+    public function testGetAutoloader(): void
+    {
+        $this->assertTrue($this->configProvider()->getCreateLocalCache());
     }
 }

@@ -36,6 +36,9 @@ class ProjectConfig
     /** @var string[] */
     private array $excludedSymbols;
 
+    /** @var bool */
+    private bool $createLocalCache;
+
     /**
      *
      * @param string $projectPath
@@ -48,6 +51,7 @@ class ProjectConfig
      * @param string[] $excludedNamespaces
      * @param string[] $excludedStubs
      * @param string[] $excludedSymbols
+     * @param bool $createLocalCache
      */
     public function __construct(
         string $projectPath,
@@ -59,7 +63,8 @@ class ProjectConfig
         string $autoloadPrefix,
         array $excludedNamespaces,
         array $excludedStubs,
-        array $excludedSymbols
+        array $excludedSymbols,
+        bool $createLocalCache
     ) {
         $this->projectPath = $projectPath;
         $this->vendorPath = $vendorPath;
@@ -75,6 +80,8 @@ class ProjectConfig
         $this->excludedNamespaces = $excludedNamespaces;
         $this->excludedStubs = $excludedStubs;
         $this->excludedSymbols = $excludedSymbols;
+
+        $this->createLocalCache = $createLocalCache;
     }
 
 
@@ -172,5 +179,15 @@ class ProjectConfig
     public function getSourceFiles(): array
     {
          return $this->sourceFiles;
+    }
+
+    /**
+     * Get the value of createLocalCache
+     *
+     * @return bool
+     */
+    public function getCreateLocalCache(): bool
+    {
+        return $this->createLocalCache;
     }
 }
