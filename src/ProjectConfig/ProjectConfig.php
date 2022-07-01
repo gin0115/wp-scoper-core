@@ -28,13 +28,16 @@ class ProjectConfig
     private string $autoloadPrefix;
 
     /** @var string[] */
-    private array $ignoredNamespaces;
+    private array $excludedNamespaces;
 
     /** @var string[] */
-    private array $patcherStubs;
+    private array $excludedStubs;
 
     /** @var string[] */
-    private array $patcherSymbols;
+    private array $excludedSymbols;
+
+    /** @var bool */
+    private bool $createLocalCache;
 
     /**
      *
@@ -45,9 +48,10 @@ class ProjectConfig
      * @param string[] $sourceFiles
      * @param string $namespacePrefix
      * @param string $autoloadPrefix
-     * @param string[] $ignoredNamespaces
-     * @param string[] $patcherStubs
-     * @param string[] $patcherSymbols
+     * @param string[] $excludedNamespaces
+     * @param string[] $excludedStubs
+     * @param string[] $excludedSymbols
+     * @param bool $createLocalCache
      */
     public function __construct(
         string $projectPath,
@@ -57,9 +61,10 @@ class ProjectConfig
         array $sourceFiles,
         string $namespacePrefix,
         string $autoloadPrefix,
-        array $ignoredNamespaces,
-        array $patcherStubs,
-        array $patcherSymbols
+        array $excludedNamespaces,
+        array $excludedStubs,
+        array $excludedSymbols,
+        bool $createLocalCache
     ) {
         $this->projectPath = $projectPath;
         $this->vendorPath = $vendorPath;
@@ -72,9 +77,11 @@ class ProjectConfig
         $this->namespacePrefix = $namespacePrefix;
         $this->autoloadPrefix = $autoloadPrefix;
 
-        $this->ignoredNamespaces = $ignoredNamespaces;
-        $this->patcherStubs = $patcherStubs;
-        $this->patcherSymbols = $patcherSymbols;
+        $this->excludedNamespaces = $excludedNamespaces;
+        $this->excludedStubs = $excludedStubs;
+        $this->excludedSymbols = $excludedSymbols;
+
+        $this->createLocalCache = $createLocalCache;
     }
 
 
@@ -128,9 +135,9 @@ class ProjectConfig
      * Get all namespaces which should be excluded from prefixing.
      * @return string[]
      */
-    public function getIgnoreNamespaces(): array
+    public function getExcludedNamespaces(): array
     {
-        return $this->ignoredNamespaces;
+        return $this->excludedNamespaces;
     }
 
     /**
@@ -138,9 +145,9 @@ class ProjectConfig
      *
      * @return string[]
      */
-    public function getPatcherStubs(): array
+    public function getExcludedStubs(): array
     {
-        return $this->patcherStubs;
+        return $this->excludedStubs;
     }
 
     /**
@@ -148,9 +155,9 @@ class ProjectConfig
      *
      * @return string[]
      */
-    public function getPatcherSymbols(): array
+    public function getExcludedSymbols(): array
     {
-        return $this->patcherSymbols;
+        return $this->excludedSymbols;
     }
 
 
@@ -172,5 +179,15 @@ class ProjectConfig
     public function getSourceFiles(): array
     {
          return $this->sourceFiles;
+    }
+
+    /**
+     * Get the value of createLocalCache
+     *
+     * @return bool
+     */
+    public function getCreateLocalCache(): bool
+    {
+        return $this->createLocalCache;
     }
 }
