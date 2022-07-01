@@ -47,7 +47,7 @@
         "league/flysystem": "^3.0"
     },
     "scripts": {
-        "test": "phpunit --coverage-clover coverage.xml",
+        "test": "phpunit --coverage-clover coverage.xml --testdox --color=always",
         "coverage": "phpunit --coverage-html coverage-report",
         "analyse": "vendor/bin/phpstan analyse src -l8",
         "sniff": "php-cs-fixer fix --diff --dry-run --rules=@PSR12",
