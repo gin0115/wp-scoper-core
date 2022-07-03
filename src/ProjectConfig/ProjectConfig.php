@@ -12,14 +12,11 @@ class ProjectConfig
     /** @var string */
     private string $vendorPath;
 
-    /** @var string */
-    private string $buildPath;
+    /** @var ?string */
+    private ?string $buildPath;
 
     /** @array{path:string, files:true, ignoreVcs:bool, notName: string, exclude: string[]}[] */
     private array $sourceFinders;
-
-    /** @var string[] */
-    private array $sourceFiles;
 
     /** @var string */
     private string $namespacePrefix;
@@ -27,14 +24,14 @@ class ProjectConfig
     /** @var string */
     private string $autoloadPrefix;
 
-    /** @var string[] */
-    private array $excludedNamespaces;
+    /** @var ?string[] */
+    private ?array $excludedNamespaces;
 
-    /** @var string[] */
-    private array $excludedStubs;
+    /** @var ?string[] */
+    private ?array $excludedStubs;
 
-    /** @var string[] */
-    private array $excludedSymbols;
+    /** @var ?string[] */
+    private ?array $excludedSymbols;
 
     /** @var bool */
     private bool $createLocalCache;
@@ -43,35 +40,32 @@ class ProjectConfig
      *
      * @param string $projectPath
      * @param string $vendorPath
-     * @param string $vendorPath
+     * @param ?string $buildPath
      * @param string[] $sourceFinders
-     * @param string[] $sourceFiles
      * @param string $namespacePrefix
      * @param string $autoloadPrefix
-     * @param string[] $excludedNamespaces
-     * @param string[] $excludedStubs
-     * @param string[] $excludedSymbols
+     * @param ?string[] $excludedNamespaces
+     * @param ?string[] $excludedStubs
+     * @param ?string[] $excludedSymbols
      * @param bool $createLocalCache
      */
     public function __construct(
         string $projectPath,
         string $vendorPath,
-        string $buildPath,
+        ?string $buildPath,
         array $sourceFinders,
-        array $sourceFiles,
         string $namespacePrefix,
         string $autoloadPrefix,
-        array $excludedNamespaces,
-        array $excludedStubs,
-        array $excludedSymbols,
+        ?array $excludedNamespaces,
+        ?array $excludedStubs,
+        ?array $excludedSymbols,
         bool $createLocalCache
     ) {
         $this->projectPath = $projectPath;
         $this->vendorPath = $vendorPath;
-        $this->buildPath = $buildPath;
+        $this->buildPath = '' === $buildPath ? null : $buildPath;
 
         $this->sourceFinders = $sourceFinders;
-        $this->sourceFiles = $sourceFiles;
 
 
         $this->namespacePrefix = $namespacePrefix;
@@ -106,9 +100,9 @@ class ProjectConfig
 
     /**
      * Get the value of buildPath
-     * @return string
+     * @return string|null
      */
-    public function getBuildPath(): string
+    public function getBuildPath(): ?string
     {
         return $this->buildPath;
     }
@@ -133,9 +127,9 @@ class ProjectConfig
 
     /**
      * Get all namespaces which should be excluded from prefixing.
-     * @return string[]
+     * @return string[]|null
      */
-    public function getExcludedNamespaces(): array
+    public function getExcludedNamespaces(): ?array
     {
         return $this->excludedNamespaces;
     }
@@ -143,9 +137,9 @@ class ProjectConfig
     /**
      * Get all patcher/stub definitions to be excluded from prefixing.
      *
-     * @return string[]
+     * @return string[]|null
      */
-    public function getExcludedStubs(): array
+    public function getExcludedStubs(): ?array
     {
         return $this->excludedStubs;
     }
@@ -153,9 +147,9 @@ class ProjectConfig
     /**
      * Get all custom function/class/constants that should be excluded from prefixing.
      *
-     * @return string[]
+     * @return string[]|null
      */
-    public function getExcludedSymbols(): array
+    public function getExcludedSymbols(): ?array
     {
         return $this->excludedSymbols;
     }
@@ -169,16 +163,6 @@ class ProjectConfig
     public function getSourceFinders(): array
     {
         return $this->sourceFinders;
-    }
-
-     /**
-      * Get the value of sourceFiles
-      *
-      * @return string[]
-      */
-    public function getSourceFiles(): array
-    {
-         return $this->sourceFiles;
     }
 
     /**

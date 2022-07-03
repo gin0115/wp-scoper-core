@@ -4,7 +4,7 @@
  * Unit test for ProjectConfigException.
  *
  * @author Glynn Quelch <glynn.quelch@gmail.com>
- * @license GPL-3.0-or-later
+ * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * @package Gin0115/WP Scoper Core
  * @since 0.1.0
  */

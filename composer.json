@@ -43,8 +43,8 @@
         "php-stubs/woocommerce-stubs": "^6",
         "php-stubs/acf-pro-stubs": "^5",
         "szepeviktor/phpstan-wordpress": "^1.0",
-        "symfony/yaml": "^6.0",
-        "league/flysystem": "^3.0"
+        "symfony/yaml": "*",
+        "league/flysystem": "*"
     },
     "scripts": {
         "test": "phpunit --coverage-clover coverage.xml --testdox --color=always",

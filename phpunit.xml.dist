@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
-<phpunit colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true">
+<phpunit 
+    colors="true" 
+    convertErrorsToExceptions="true" 
+    convertNoticesToExceptions="true" 
+    convertWarningsToExceptions="true"
+>
     <testsuites>
         <testsuite name="gin0115_wp_acoper_core">
             <directory prefix="Test" suffix=".php">./tests</directory>
