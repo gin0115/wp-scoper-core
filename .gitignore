@@ -2,3 +2,5 @@ vendor
 .vscode
 patchers/patcher-records.json
 wp-scoper-core.code-workspace
+coverage-report
+.phpunit.result.cache
